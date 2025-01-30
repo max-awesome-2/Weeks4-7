@@ -11,6 +11,10 @@ public class EnableDisable : MonoBehaviour
 
     public GameObject gb;
 
+    public AudioSource s;
+
+    public AudioClip clip;
+
 
     // Start is called before the first frame update
     void Start()
@@ -32,6 +36,14 @@ public class EnableDisable : MonoBehaviour
         {
             //sr.enabled = true;
             gb.SetActive(true);
+        }
+
+        if (Input.GetKey(KeyCode.Space))
+        {
+            if (!s.isPlaying)
+            {
+                s.PlayOneShot(clip);
+            }
         }
     }
 }
