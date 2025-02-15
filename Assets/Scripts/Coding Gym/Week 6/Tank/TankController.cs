@@ -45,9 +45,21 @@ public class TankController : MonoBehaviour
     void Update()
     {
 
+        // tank movement
         Vector2 move = new Vector3(Input.GetAxis("Horizontal"), 0);
 
         transform.Translate(move * moveSpeed * Time.deltaTime);
+
+        transform.position = new Vector3(Mathf.Clamp(transform.position.x, screenBounds.x, screenBounds.y), transform.position.y, transform.position.z);
+
+        // barrel rotation
+        Vector3 mousePos = Input.mousePosition;
+        mousePos.z = -Camera.main.transform.position.z;
+
+        Vector3 targPos = Camera.main.ScreenToWorldPoint(mousePos);
+        Vector3 direc = targPos - transform.position;
+
+        float angle = Mathf.Atan2();
 
         
     }
