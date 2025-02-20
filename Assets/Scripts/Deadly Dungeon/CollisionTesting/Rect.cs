@@ -8,6 +8,13 @@ public class Rect
     * x, y, x2, y2
     * width / height
     * 
+    * public Rect(vector3 pos, vector3 scale) {
+    *   x = pos.x;
+    *   y = pos.y;
+    *   width = scale.x
+    *   height = scale.y
+    * }
+    * 
     * detect collision (rect)
     *   if (a.x1 < b.x2 && a.x2 > b.x1 && a.y1 > b.y2 && a.y2 < b.y1)
     *       collision
