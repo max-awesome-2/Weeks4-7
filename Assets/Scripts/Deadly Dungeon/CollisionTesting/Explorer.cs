@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Explorer : MonoBehaviour
+public class Explorer : Collideable
 {
     /*
      * 
@@ -80,4 +80,64 @@ public class Explorer : MonoBehaviour
      * 
      * 
      */
+
+
+    private bool grounded = false;
+    public float gravity = -9.8f;
+    public float fallingGravityMult = 1.5f;
+
+    // move variables
+    public float moveSpeed = 10f;
+
+    float yVelocity = 0;
+    public float jumpVelocity = 20;
+    private float groundedVelocity = -0.01f;
+
+
+    private void Start()
+    {
+        GenerateRect();
+    }
+
+    private void Update()
+    {
+        float x = Input.GetAxis("Horizontal");
+
+        transform.position += Vector3.right * x * moveSpeed * Time.deltaTime;
+
+        if (grounded) {
+
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                grounded = false;
+                yVelocity = jumpVelocity;
+            } else
+            {
+                // while grounded set velocity to consistent negative value
+                yVelocity = groundedVelocity;
+            }
+
+        } else
+        {
+            // add gravity
+
+            yVelocity += gravity * (yVelocity < 0 ? fallingGravityMult : 1);
+        }
+
+        // check collisions
+        foreach (Collideable c in CameraManager.instance.allCollideables)
+        {
+            int collisionDirec = c.rect.CollidesWith(rect);
+
+            if (collisionDirec >= 0)
+            {
+
+                bool widthOrHeight = (collisionDirec % 2 == 1);
+
+                transform.position = c.transform.position + ((collisionDirec < 2 ? 1 : -1) * ((widthOrHeight ? (c.rect.width / 2 + rect.width / 2) : (c.rect.height / 2 + rect.height / 2))));
+
+            }
+        }
+    }
+
 }

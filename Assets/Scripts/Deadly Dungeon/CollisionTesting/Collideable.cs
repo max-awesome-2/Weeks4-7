@@ -15,16 +15,18 @@ public class Collideable : MonoBehaviour
      * }
      */
 
+    public Rect rect;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        GenerateRect();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void GenerateRect()
     {
-        
+        rect = new Rect(transform.position, transform.localScale);
+
     }
+
 }
