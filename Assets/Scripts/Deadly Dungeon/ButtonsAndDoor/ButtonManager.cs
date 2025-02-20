@@ -20,6 +20,11 @@ public class ButtonManager : MonoBehaviour
      * doorGameObject.setActive
      * 
      */
+
+    bool success;
+    public List<Button> buttons;
+    public GameObject door;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -29,6 +34,19 @@ public class ButtonManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        success = true;
+
+        foreach(Button b in buttons)
+        {
+            if(b.active == false)
+            {
+                success = false;
+            }
+        }
+
+        if(success == true)
+        {
+            door.SetActive(false);
+        }
     }
 }
