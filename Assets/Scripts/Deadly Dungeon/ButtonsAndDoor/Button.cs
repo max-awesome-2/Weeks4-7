@@ -54,7 +54,6 @@ public class Button : MonoBehaviour
             button.color = interact;
 
             timer += Time.deltaTime;
-            active = !active;
         }
 
         if(timer == breakPoint)
