@@ -134,7 +134,7 @@ public class Explorer : Collideable
 
                 bool widthOrHeight = (collisionDirec % 2 == 1);
 
-                transform.position = c.transform.position + ((collisionDirec < 2 ? 1 : -1) * ((widthOrHeight ? (c.rect.width / 2 + rect.width / 2) : (c.rect.height / 2 + rect.height / 2))));
+                //transform.position = c.transform.position + ((collisionDirec < 2 ? 1 : -1) * ((widthOrHeight ? (c.rect.width / 2 + rect.width / 2) : (c.rect.height / 2 + rect.height / 2))));
 
             }
         }
