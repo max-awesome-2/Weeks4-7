@@ -30,12 +30,14 @@ public class ToggleButton : MonoBehaviour
             toggled = true;
             img.color = Color.red;
             manager.OnToggleButtonPressed(panelNum);
+
         }
     }
 
     public void ToggleReset()
     {
         toggled = false;
+        img = GetComponent<Image>();
         img.color = Color.white;
     }
 }

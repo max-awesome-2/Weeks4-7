@@ -31,7 +31,7 @@ public class FallingObject : MonoBehaviour
         if (transform.position.y < transform.lossyScale.y)
         {
             Destroy(gameObject);
-            manager.OnFallingButtonFall();
+            manager.OnFallingButtonFall(gameObject);
         }
     }
 }
