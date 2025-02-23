@@ -60,6 +60,10 @@ public class GameManager : MonoBehaviour
     public GameObject p4StartButton;
     private void Start()
     {
+        // set min and max values for the timer bar
+        bar1.minValue = 0f;
+        bar1.maxValue = p3ButtonChallengeTime;
+
         ResetAll();
     }
 
@@ -80,12 +84,12 @@ public class GameManager : MonoBehaviour
         else if (sliderName == "slider4")
         {
             Vector3 pos = p3MaskGraphic.position;
-            pos.x = map(slider4.value, 0, 1, maskXMinMax.x, maskXMinMax.y);
+            pos.x = Map(slider4.value, 0, 1, maskXMinMax.x, maskXMinMax.y);
         }
         else if (sliderName == "slider5")
         {
             Vector3 pos = p3MaskGraphic.position;
-            pos.x = map(slider5.value, 0, 1, maskXMinMax.x, maskXMinMax.y);
+            pos.x = Map(slider5.value, 0, 1, maskXMinMax.x, maskXMinMax.y);
         }
         else if (sliderName == "slider6")
         {
@@ -95,7 +99,18 @@ public class GameManager : MonoBehaviour
         {
             if (slider7 != null)
             {
-                fakePanel0.Slide(slider7.value);
+                float slideVal = slider7.value;
+
+                if (slideVal >= 0.98f)
+                {
+                    // destroy the slider so it doesn't trigger the falling off screen method and reset itself
+                    Destroy(slider7.gameObject);
+                    slideVal = 1;
+                }
+
+                fakePanel0.Slide(slideVal);
+
+
             }
         }
     }
@@ -159,6 +174,8 @@ public class GameManager : MonoBehaviour
                 {
                     b.gameObject.SetActive(false);
                 }
+
+                buttonTimerActive = false;
 
                 // set slider 6 active
                 slider6.gameObject.SetActive(true);
@@ -225,6 +242,7 @@ public class GameManager : MonoBehaviour
 
         foreach (ToggleButton b in p3Buttons)
         {
+            b.ToggleReset();
             b.gameObject.SetActive(true);
         }
 
@@ -233,13 +251,15 @@ public class GameManager : MonoBehaviour
 
         slider6.gameObject.SetActive(false);
 
+        bar1.value = 0;
+
         if (slider7 != null) slider7 = null;
 
 
     }
 
     // map function for mapping ranges
-    private float map(float val, float inMin, float inMax, float newMin, float newMax)
+    private float Map(float val, float inMin, float inMax, float newMin, float newMax)
     {
         float ratio = (val - inMin) / (inMax - inMin);
         ratio = Mathf.Clamp(ratio, 0, 1);
@@ -300,6 +320,33 @@ public class GameManager : MonoBehaviour
         {
             p2ButtonsLocked = true;
             slider3.gameObject.SetActive(true);
+        }
+    }
+
+    public void OnFallingButtonFall()
+    {
+        p4ButtonsPressed = 0;
+        p4StartButton.SetActive(true);
+        fakePanel0.ResetPanel();
+    }
+
+    private void Update()
+    {
+        if (buttonTimerActive)
+        {
+            // set timer bar value
+            bar1.value = Mathf.Clamp((p3ButtonTimer - Time.time) / p3ButtonChallengeTime, 0, 1);
+
+            if (Time.time >= p3ButtonTimer)
+            {
+                p3ButtonsText.text = "0/7";
+                p3ButtonsPressed = 0;
+                buttonTimerActive = false;
+                foreach (ToggleButton b in p3Buttons)
+                {
+                    b.ToggleReset();
+                }
+            }
         }
     }
 }

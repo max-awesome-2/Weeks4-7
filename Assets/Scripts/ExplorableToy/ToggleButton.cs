@@ -33,7 +33,7 @@ public class ToggleButton : MonoBehaviour
         }
     }
 
-    public void Reset()
+    public void ToggleReset()
     {
         toggled = false;
         img.color = Color.white;
